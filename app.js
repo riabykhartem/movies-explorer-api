@@ -1,5 +1,5 @@
-const express = require('express');
 require('dotenv').config();
+const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const mongoose = require('mongoose');
@@ -7,14 +7,14 @@ const { PORT = 3000 } = process.env;
 const cors = require('cors');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { hemlet } = require('helmet');
-const limiter = require('./utils/constants');
+const helmet = require('helmet');
+const { limiter } = require('./utils/constants');
 
 const app = express();
 
 app.use(limiter);
 
-app.use(hemlet());
+app.use(helmet());
 
 app.use(cors());
 
