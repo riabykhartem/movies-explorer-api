@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const NotFoundError = require('../errors/NotFoundError');
 const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
@@ -25,8 +24,7 @@ const getCurrentUser = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
   const { name, email } = req.body;
   return User.findByIdAndUpdate(
-    '6572810c835abf0a8b19c16c',
-     // req.user._id, здесть можно будет использовать req.user._id, если будет использоваться авторизация
+    req.user._id, 
     { name, email },
     { new: true, runValidators: true },
   )
