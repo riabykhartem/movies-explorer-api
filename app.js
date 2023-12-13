@@ -20,7 +20,7 @@ app.use(cors());
 
 app.use(requestLogger);
 
-mongoose.connect('mongodb://127.0.0.1:27017/diplomadb');
+mongoose.connect('mongodb://127.0.0.1:27017/diplomadb', {autoIndex: true,});
 
 app.use(bodyParser.json());
 

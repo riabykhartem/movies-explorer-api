@@ -5,9 +5,9 @@ const BadRequestError = require('../errors/BadRequestError');
 const createMovie = async (req, res, next) => {
     try {
         const {
-            country,director, duration, year, description, image, trailerLink, thumbnail, owner, movieId, nameRU, nameEN} = req.body;
+            country,director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN} = req.body;
         const newMovie = await movie.create({
-            country,director, duration, year, description, image, trailerLink, thumbnail, owner, movieId, nameRU, nameEN
+            country,director, duration, year, description, image, trailerLink, thumbnail, owner: req.user._id, movieId, nameRU, nameEN
         });
         return res.status(200).send(newMovie);
     } catch (err) {
@@ -17,7 +17,7 @@ const createMovie = async (req, res, next) => {
 
 const getMovies = async (req, res, next) => {
     try {
-        const movies = await movie.find({});
+        const movies = await movie.find({ owner: req.user._id});
         return res.status(200).send(movies);
     } catch (err) {
         return next(err);

@@ -9,9 +9,8 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const JWT = require('jsonwebtoken');
 
 const getCurrentUser = async (req, res, next) => {
-  console.log(req.body);
     try {
-      const user = await User.findById(req.body._id);
+      const user = await User.findById(req.user._id);
       if (!user) {
         return next(new NotFoundError('User not found'));
       }
