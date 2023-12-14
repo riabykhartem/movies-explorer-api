@@ -29,7 +29,7 @@ const deleteMovie = async (req, res, next) => {
         const { movieId } = req.params;
         const movieToDelete = await movie.findById(movieId);
         if (!movieToDelete) {
-            return res.status(404).send({ message: 'Фильм не найден' });
+          return next(new NotFoundError(`Фильм с _id: ${req.params.cardId} не найден.`));
         }
         if (movieToDelete.owner.toString() !== req.user._id) {
             return res.status(403).send({ message: 'Нельзя удалять чужие фильмы' });
@@ -37,9 +37,7 @@ const deleteMovie = async (req, res, next) => {
         await movieToDelete.deleteOne();
         return res.status(200).send({ message: 'Фильм удалён' });
     } catch (err) {
-        if (err instanceof mongoose.Error.DocumentNotFoundError) {
-            return next(new NotFoundError(`Фильм с _id: ${req.params.cardId} не найдена.`));
-          } if (err instanceof mongoose.Error.CastError) {
+      if (err instanceof mongoose.Error.CastError) {
             return next(new BadRequestError(`Некорректный _id фильма: ${req.params.cardId}`));
           }
           return next(err);
