@@ -27,7 +27,7 @@ const getMovies = async (req, res, next) => {
 const deleteMovie = async (req, res, next) => {
     try {
         const { movieId } = req.params;
-        const movieToDelete = await movie.findById(movieId);
+        const movieToDelete = await movie.findOne({movieId: movieId});
         if (!movieToDelete) {
           return next(new NotFoundError(`Фильм с _id: ${req.params.cardId} не найден.`));
         }
