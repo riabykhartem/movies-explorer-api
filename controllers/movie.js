@@ -27,7 +27,7 @@ const getMovies = async (req, res, next) => {
 const deleteMovie = async (req, res, next) => {
     try {
         const { movieId } = req.params;
-        const movieToDelete = await movie.findOne({movieId: movieId});
+        const movieToDelete = await movie.findOne({ movieId: req.params.movieId});
         if (!movieToDelete) {
           return next(new NotFoundError(`Фильм с _id: ${req.params.movieId} не найден.`));
         }
@@ -38,7 +38,7 @@ const deleteMovie = async (req, res, next) => {
         return res.status(200).send({ message: `Фильм c id ${req.params.movieId} удалён ` });
     } catch (err) {
       if (err instanceof mongoose.Error.CastError) {
-            return next(new BadRequestError(`Некорректный _id фильма: ${req.params.movieId}`));
+            return next(new BadRequestError({message: `Некорректный id фильма: ${req.params.movieId}`}));
           }
           return next(err);
         }
